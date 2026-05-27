@@ -1,74 +1,48 @@
-# 🧠 Sentiment Analysis — NLP Text Classifier
+# Sentiment Analysis
 
-[![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python)](https://www.python.org/)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.3%2B-orange?logo=scikit-learn)](https://scikit-learn.org/)
-[![Flask](https://img.shields.io/badge/Flask-3.0%2B-black?logo=flask)](https://flask.palletsprojects.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+A simple NLP project that classifies text as positive or negative. Built using TF-IDF for feature extraction and Logistic Regression for classification, with a small Flask API to serve predictions. This is one of my first ML projects so feedback is welcome.
 
-A text sentiment classifier built with **TF-IDF** and **Logistic Regression**, served via a **Flask REST API**. Given any English text, it predicts whether the sentiment is **positive** or **negative** along with a confidence score.
-
----
-
-## ✨ Features
-
-- **TF-IDF vectorization** with bigram support
-- **Logistic Regression** classifier (fast, interpretable, strong baseline)
-- **REST API** via Flask with single and batch prediction endpoints
-- **Confusion matrix** visualization saved automatically after training
-- Clean project structure with unit tests
-
----
-
-## 📁 Project Structure
+## Project structure
 
 ```
 sentiment-analysis/
 ├── src/
-│   ├── train.py        # Train and save the model
-│   └── predict.py      # Load model and run inference
+│   ├── train.py        # trains and saves the model
+│   └── predict.py      # loads the model and runs inference
 ├── tests/
-│   └── test_predict.py # Unit tests (pytest)
-├── notebooks/          # Exploratory analysis (Jupyter)
-├── models/             # Saved model artifacts (auto-created)
-├── data/               # Place your dataset here
-├── app.py              # Flask REST API
+│   └── test_predict.py
+├── app.py              # Flask API
 ├── requirements.txt
 └── README.md
 ```
 
----
+## Setup
 
-## 🚀 Quickstart
-
-### 1. Clone & install dependencies
+Clone the repo and install dependencies:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/sentiment-analysis.git
+git clone https://github.com/Kare100/sentiment-analysis.git
 cd sentiment-analysis
 pip install -r requirements.txt
 ```
 
-### 2. Train the model
+## Usage
+
+Train the model first:
 
 ```bash
 python src/train.py
 ```
 
-This saves `models/sentiment_model.pkl` and `models/tfidf_vectorizer.pkl`.
-
-### 3. Run the API
+Then start the API:
 
 ```bash
 python app.py
 ```
 
-API is live at `http://localhost:5000`.
+The API runs at `http://localhost:5000`.
 
----
-
-## 📡 API Usage
-
-### Single prediction
+To get a prediction:
 
 ```bash
 curl -X POST http://localhost:5000/predict \
@@ -76,7 +50,8 @@ curl -X POST http://localhost:5000/predict \
   -d '{"text": "This movie was absolutely incredible!"}'
 ```
 
-**Response:**
+Response:
+
 ```json
 {
   "text": "This movie was absolutely incredible!",
@@ -86,47 +61,20 @@ curl -X POST http://localhost:5000/predict \
 }
 ```
 
-### Batch prediction
+You can also send a batch of texts to `/predict/batch` or hit `/health` to check the API is running.
 
-```bash
-curl -X POST http://localhost:5000/predict/batch \
-  -H "Content-Type: application/json" \
-  -d '{"texts": ["Great film!", "Total waste of time."]}'
-```
+## How it works
 
-### Health check
+Text goes through a TF-IDF vectorizer (top 5000 features, unigrams and bigrams, stopwords removed) and then into a Logistic Regression classifier. After training, both the model and vectorizer are saved as `.pkl` files so they can be loaded without retraining.
 
-```bash
-curl http://localhost:5000/health
-```
-
----
-
-## 🧪 Run Tests
+## Running tests
 
 ```bash
 pytest tests/ -v
 ```
 
----
+## What I want to add next
 
-## 🔧 How It Works
-
-1. **Vectorization** — Raw text is converted to a TF-IDF matrix (top 5,000 features, unigrams + bigrams, stopwords removed).
-2. **Classification** — A Logistic Regression model is trained on the vectorized text.
-3. **Inference** — New text is transformed using the same vectorizer and passed to the model, which returns a class label and probability.
-
----
-
-## 📈 Extending This Project
-
-- Swap in a **transformer model** (e.g. `distilbert-base-uncased`) via HuggingFace 🤗
-- Add a **Streamlit** front-end for a live demo
-- Train on the full **IMDB 50K dataset** from Kaggle
-- Deploy to **Render**, **Railway**, or **Hugging Face Spaces**
-
----
-
-## 📄 License
-
-MIT — see [LICENSE](LICENSE) for details.
+- train on the full IMDB 50K dataset from Kaggle
+- try a transformer model like distilbert
+- add a simple Streamlit front-end

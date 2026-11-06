@@ -1,6 +1,6 @@
 """
 Basic unit tests for the sentiment predictor.
-Run with: pytest tests/
+Run with: pytest -v
 """
 
 import sys
@@ -35,7 +35,7 @@ def make_mock_vectorizer():
 
 class TestPredict:
     def test_positive_prediction(self):
-        from src.predict import predict
+        from predict import predict
 
         result = predict(
             "This film was absolutely brilliant!",
@@ -49,7 +49,7 @@ class TestPredict:
         assert "text" in result
 
     def test_negative_prediction(self):
-        from src.predict import predict
+        from predict import predict
 
         result = predict(
             "Terrible movie, complete waste of time.",
@@ -61,7 +61,7 @@ class TestPredict:
         assert result["score"] == 0
 
     def test_confidence_is_float(self):
-        from src.predict import predict
+        from predict import predict
 
         result = predict(
             "It was okay.",
@@ -71,7 +71,7 @@ class TestPredict:
         assert isinstance(result["confidence"], float)
 
     def test_batch_returns_list(self):
-        from src.predict import predict_batch
+        from predict import predict_batch
 
         texts = ["Great!", "Awful.", "Not bad."]
         results = predict_batch(
@@ -84,7 +84,7 @@ class TestPredict:
         assert len(results) == 3
 
     def test_result_has_required_keys(self):
-        from src.predict import predict
+        from predict import predict
 
         result = predict(
             "Some text.",

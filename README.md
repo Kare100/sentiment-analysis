@@ -1,5 +1,7 @@
 # Sentiment Analysis
 
+[![Tests](https://github.com/Kare100/sentiment-analysis/actions/workflows/tests.yml/badge.svg)](https://github.com/Kare100/sentiment-analysis/actions/workflows/tests.yml)
+
 A simple NLP project that classifies text as positive or negative. Built using TF-IDF for feature extraction and Logistic Regression for classification, with a small Flask API to serve predictions. This is one of my first ML projects so feedback is welcome.
 
 ## Project structure
@@ -70,7 +72,7 @@ Text goes through a TF-IDF vectorizer (top 5000 features, unigrams and bigrams, 
 ## Running tests
 
 ```bash
-pytest tests/ -v
+pytest -v
 ```
 
 ## What I want to add next
